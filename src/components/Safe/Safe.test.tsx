@@ -1,7 +1,8 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import renderWithRedux from "../../test/renderWithRedux";
+import wrappedRender from "../../test/wrappedRender";
+import { ERRORED_SPEECH_TEXT, LOCKED_SPEECH_TEXT, UNLOCKED_SPEECH_TEXT } from "./AccessibilityHelper";
 import { ERROR_MESSAGE } from "./Display";
 import Safe from "./Safe";
 
@@ -16,8 +17,10 @@ const inputSafePin = (pressedButtons: string, enter?: boolean) => {
 };
 
 describe("Safe component", () => {
-  it("displays inputted PIN", () => {
-    renderWithRedux(<Safe />);
+  it("displays inputted PIN and shows unlocked message to screen readers by default", () => {
+    wrappedRender(<Safe />);
+
+    expect(screen.getByRole("alert").textContent).toBe(UNLOCKED_SPEECH_TEXT);
 
     const pressedButtons = "123";
     inputSafePin(pressedButtons);
@@ -26,25 +29,27 @@ describe("Safe component", () => {
   });
 
   it("shows error message when entering invalid PIN", () => {
-    renderWithRedux(<Safe />);
+    wrappedRender(<Safe />);
 
     const pressedButtons = "12";
     inputSafePin(pressedButtons, true);
 
     expect(screen.getByText(ERROR_MESSAGE)).toBeInTheDocument();
+    expect(screen.getByRole("alert").textContent).toBe(ERRORED_SPEECH_TEXT);
   });
 
-  it("locks the safe when valid PIN is entered", () => {
-    renderWithRedux(<Safe />);
+  it("locks the safe when valid PIN is entered and shows locked message to screen readers", () => {
+    wrappedRender(<Safe />);
 
     const pressedButtons = "1234";
     inputSafePin(pressedButtons, true);
 
-    expect(screen.getByRole("switch", { checked: true })).toBeInTheDocument();
+    expect(screen.getByTestId("indicator-light").dataset.locked).toBe("true");
+    expect(screen.getByRole("alert").textContent).toBe(LOCKED_SPEECH_TEXT);
   });
 
   it("shows invalid when wrong PIN is entered for locked safe", () => {
-    renderWithRedux(<Safe />);
+    wrappedRender(<Safe />);
 
     const pressedButtons = "1234";
     inputSafePin(pressedButtons, true);
@@ -56,18 +61,19 @@ describe("Safe component", () => {
   });
 
   it("unlocks safe with correct PIN", () => {
-    renderWithRedux(<Safe />);
+    wrappedRender(<Safe />);
 
     const correctPin = "1234";
     inputSafePin(correctPin, true);
 
     inputSafePin(correctPin, true);
 
-    expect(screen.getByRole("switch", { checked: false })).toBeInTheDocument();
+    expect(screen.getByTestId("indicator-light").dataset.locked).toBe("false");
+    expect(screen.getByRole("alert").textContent).toBe(UNLOCKED_SPEECH_TEXT);
   });
 
   it("clears input PIN display when CLR is pressed", () => {
-    renderWithRedux(<Safe />);
+    wrappedRender(<Safe />);
 
     const pressedButtons = "123";
     inputSafePin(pressedButtons);
@@ -77,13 +83,17 @@ describe("Safe component", () => {
     expect(screen.queryByText(pressedButtons)).not.toBeInTheDocument();
   });
 
-  it("clears error message with CLR is pressed", () => {
-    renderWithRedux(<Safe />);
+  it("clears error message with CLR is pressed and reverts to unlocked message for screen readers", () => {
+    wrappedRender(<Safe />);
 
     const pressedButtons = "123";
     inputSafePin(pressedButtons, true);
 
+    expect(screen.getByRole("alert").textContent).toBe(ERRORED_SPEECH_TEXT);
+
     userEvent.click(screen.getByRole("button", { name: "Clear" }));
+
+    expect(screen.getByRole("alert").textContent).toBe(UNLOCKED_SPEECH_TEXT);
 
     expect(screen.queryByText(pressedButtons)).not.toBeInTheDocument();
   });

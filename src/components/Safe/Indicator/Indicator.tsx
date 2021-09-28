@@ -18,10 +18,15 @@ const Light = styled.div<{ locked: boolean }>`
   }
 `;
 
+/**
+ * An indicator light acting as a visual identifier for the locked state of the safe.
+ */
 const Indicator = () => {
   const locked = useAppSelector((state) => state.safe.locked);
 
-  return <Light aria-checked={locked} locked={locked} role="switch" />;
+  // We use data-locked here to identify whether the safe is currently locked or not.
+  // Given more time, I would verify the state of the visual indicator using an E2E visual regression test.
+  return <Light data-locked={locked} data-testid="indicator-light" locked={locked} />;
 };
 
 export default Indicator;

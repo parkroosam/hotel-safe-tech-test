@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+import AccessibilityHelper from "./AccessibilityHelper";
 import Display from "./Display";
 import Indicator from "./Indicator";
 import NumPad from "./NumPad";
@@ -11,7 +12,7 @@ const DisplayWrapper = styled.div`
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.safeBg};
   border-radius: 12px;
-  box-shadow: 3px 3px 6px ${(props) => props.theme.black};
+  box-shadow: 0 30px 30px -4px rgba(0, 0, 0, 0.5);
   box-sizing: border-box;
   display: flex;
   flex-flow: column-reverse;
@@ -46,6 +47,7 @@ const Safe = () => {
         <Display />
         <Indicator />
       </DisplayWrapper>
+      <AccessibilityHelper />
     </Wrapper>
   );
 };

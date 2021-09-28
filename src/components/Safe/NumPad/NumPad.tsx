@@ -26,6 +26,10 @@ const Wrapper = styled.div`
   }
 `;
 
+/**
+ * The number pad of the safe. Special thought has been put into the use of aria-label
+ * to ensure that the buttons remain accessible to screen readers.
+ */
 const NumPad = () => {
   const dispatch = useDispatch();
 

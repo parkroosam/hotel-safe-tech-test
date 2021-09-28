@@ -32,6 +32,10 @@ const Wrapper = styled.div`
   }
 `;
 
+/**
+ * The display of the safe, either showing the PIN as it's being typed, or the
+ * error message if the safe is in an errored state.
+ */
 const Display = () => {
   const error = useAppSelector((state) => state.safe.error);
   const pin = useAppSelector((state) => state.safe.pin);
