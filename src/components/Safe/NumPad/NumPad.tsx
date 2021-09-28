@@ -12,13 +12,18 @@ const Button = styled.button`
 `;
 
 const Wrapper = styled.div`
-  background-color: #666666;
-  border: 3px solid #000000;
+  background-color: ${(props) => props.theme.numpadBg};
+  border: 3px solid ${(props) => props.theme.black};
   display: grid;
   gap: 4px;
   grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 20px;
   padding: 12px;
-  width: 34%;
+
+  @media ${(props) => props.theme.deviceSizes.from.lg} {
+    margin: 0;
+    width: 34%;
+  }
 `;
 
 const NumPad = () => {
