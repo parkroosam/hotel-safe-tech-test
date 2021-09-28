@@ -2,9 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import * as reducer from "./slices";
 
-const store = configureStore({
-  reducer,
-});
+export const createStore = () => {
+  return configureStore({
+    reducer,
+  });
+};
+
+const store = createStore();
 
 export default store;
 

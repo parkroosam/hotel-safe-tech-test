@@ -9,7 +9,7 @@ interface SafeState {
   storedPin: string | null;
 }
 
-const initialState: SafeState = {
+export const initialState: SafeState = {
   error: false,
   locked: false,
   pin: "",

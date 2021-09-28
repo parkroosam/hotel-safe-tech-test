@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { useAppSelector } from "../../../utils/redux";
 
-const ERROR_MESSAGE = "INVALID";
+export const ERROR_MESSAGE = "INVALID";
 
 const PinDisplay = styled.div`
   font-family: "Segment14Regular";

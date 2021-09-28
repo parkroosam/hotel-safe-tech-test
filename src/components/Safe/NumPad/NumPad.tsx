@@ -47,9 +47,13 @@ const NumPad = () => {
           </Button>
         );
       })}
-      <Button onClick={handleClrClick}>CLR</Button>
+      <Button aria-label="Clear" onClick={handleClrClick}>
+        CLR
+      </Button>
       <Button onClick={() => handleNumberClick(0)}>0</Button>
-      <Button onClick={handleEnterClick}>⇨</Button>
+      <Button aria-label="Enter" onClick={handleEnterClick}>
+        ⇨
+      </Button>
     </Wrapper>
   );
 };

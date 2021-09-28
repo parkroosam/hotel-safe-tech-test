@@ -14,7 +14,7 @@ const Light = styled.div<{ locked: boolean }>`
 const Indicator = () => {
   const locked = useAppSelector((state) => state.safe.locked);
 
-  return <Light locked={locked} />;
+  return <Light aria-checked={locked} locked={locked} role="switch" />;
 };
 
 export default Indicator;
