@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import safeReducer from "./slices/safe";
+import * as reducer from "./slices";
 
 const store = configureStore({
-  reducer: safeReducer,
+  reducer,
 });
 
 export default store;
